@@ -1,47 +1,38 @@
-//event listener which listens to every message/event from the Iframe
-
+// Listen to all messages from the embedded Salesforce chatbot
 window.addEventListener("message", (event) => {
+  if (!event.data || !event.data.method) return;
 
-if ((event.data.method === "EMBEDDED_MESSAGING_DISPATCH_EVENT_TO_HOST" && event.data.data.eventDetails.conversationEntry && event.data.data.eventDetails.conversationEntry.entryPayload)) {
+  // Check for conversation events
+  if (
+    event.data.method === "EMBEDDED_MESSAGING_DISPATCH_EVENT_TO_HOST" &&
+    event.data.data?.eventDetails?.conversationEntry?.entryPayload
+  ) {
+    let payload = JSON.parse(event.data.data.eventDetails.conversationEntry.entryPayload);
 
-let payload = JSON.parse(event.data.data.eventDetails.conversationEntry.entryPayload)
-
-    if( payload.abstractMessage && payload.abstractMessage.choices) {
-
-postIframeDisable();
-
-}
-
-    else if(payload.abstractMessage && payload.abstractMessage.choicesResponse){
-
-       postIframeEnable();
-
+    // If bot shows choices, disable input
+    if (payload.abstractMessage?.choices) {
+      postIframeDisable();
+    } 
+    // If bot allows free text, enable input
+    else if (payload.abstractMessage?.choicesResponse) {
+      postIframeEnable();
     }
-
-}
-
+  }
 });
 
-
-//posting message to enable user input
-
-function postIframeEnable(){
-
-var iframe = document.getElementById("embeddedMessagingFrame");
-
-   iframe.contentWindow.postMessage('InputEnable');
-
+// Get the chatbot iframe dynamically
+function getChatbotIframe() {
+  return document.querySelector("iframe[src*='ESWChatBotMessageforwe']");
 }
 
- 
-
-//posting message to disable user input
-
-function postIframeDisable(){
-
-var iframe = document.getElementById("embeddedMessagingFrame");
-
-   iframe.contentWindow.postMessage('InputDisable');
-
+// Post message to enable input
+function postIframeEnable() {
+  const iframe = getChatbotIframe();
+  if (iframe) iframe.contentWindow.postMessage('InputEnable', '*');
 }
 
+// Post message to disable input
+function postIframeDisable() {
+  const iframe = getChatbotIframe();
+  if (iframe) iframe.contentWindow.postMessage('InputDisable', '*');
+}
