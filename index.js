@@ -28,6 +28,10 @@ function getChatbotIframe() {
 // Post message to enable input
 function postIframeEnable() {
   const iframe = getChatbotIframe();
+  if (iframe) {
+    iframe.style.pointerEvents = "none"; // disables clicks/typing
+    iframe.style.opacity = "0.5"; // optional visual cue
+  }
   if (iframe) iframe.contentWindow.postMessage('InputEnable', '*');
 }
 
