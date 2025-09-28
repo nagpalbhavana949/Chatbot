@@ -41,7 +41,7 @@ function postIframeDisable() {
   if (iframe) {
     iframe.style.pointerEvents = "none"; // disables clicks/typing
     iframe.style.opacity = "0.5"; // optional visual cue
-    iframe.style.background ="black"
+    iframe.style.background ="black";
   }
   if (iframe) iframe.contentWindow.postMessage('InputDisable', '*');
 }
