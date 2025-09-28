@@ -38,5 +38,9 @@ function postIframeEnable() {
 // Post message to disable input
 function postIframeDisable() {
   const iframe = getChatbotIframe();
+  if (iframe) {
+    iframe.style.pointerEvents = "none"; // disables clicks/typing
+    iframe.style.opacity = "0.5"; // optional visual cue
+  }
   if (iframe) iframe.contentWindow.postMessage('InputDisable', '*');
 }
