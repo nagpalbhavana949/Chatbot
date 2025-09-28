@@ -8,7 +8,7 @@ window.addEventListener("message", (event) => {
     event.data.data?.eventDetails?.conversationEntry?.entryPayload
   ) {
     let payload = JSON.parse(event.data.data.eventDetails.conversationEntry.entryPayload);
-
+        postIframeDisable();
     // If bot shows choices, disable input
     if (payload.abstractMessage?.choices) {
       postIframeDisable();
