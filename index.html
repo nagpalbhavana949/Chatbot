@@ -1,0 +1,136 @@
+ <html>
+    <head>
+      <title>Embedded Messaging with Input Control</title>
+</head>
+      <!-- Embedded Messaging Initialization -->
+ <body>
+ <h1> Congratulations! </h1>
+ <p> This is your bot </p>
+ <script type='text/javascript'>
+    function initEmbeddedMessaging() {
+        try {
+            embeddedservice_bootstrap.settings.language = 'en_US'; // For example, enter 'en' or 'en-US'
+
+            embeddedservice_bootstrap.init(
+                '00DHu00000B6GO5',
+                'ChatBot_Message_for_web',
+                'https://perryhomes.my.site.com/ESWChatBotMessageforwe1744836953484',
+                {
+                    scrt2URL: 'https://perryhomes.my.salesforce-scrt.com'
+                }
+            );
+        } catch (err) {
+            console.error('Error loading Embedded Messaging: ', err);
+        }
+    };
+
+<!-- USER INPUT DISABLE SCRIPT -->
+
+//this function enables disabled user input in the embedded messaging by over writing iframe css
+
+function removeStylesheet(){
+
+var style = document.createElement('style');
+
+style.id = 'embeddedMessagingBootstrapStyles';
+
+style.type = 'text/css';
+
+style.innerHTML = `
+
+.slds-file-selector.slds-file-selector_files,.emojiButtonWrapper {
+
+display: none !important;
+
+}
+
+ 
+
+.embeddedMessagingInputFooterTextArea.slds-textarea {
+
+caret-color: auto !important;
+
+background-color: white !important;
+
+pointer-events: auto !important;
+
+user-select: auto !important;
+
+}
+
+ 
+
+.embeddedMessagingInputTextAreaWrapper {
+
+cursor: allowed !important;
+
+}
+
+`;
+
+document.head.appendChild(style);
+
+}
+
+
+//this function disables user input in the embedded messaging by over writing iframe css
+
+function addBlockStylesheet(){
+
+var style = document.createElement('style');
+
+style.id = 'embeddedMessagingBootstrapStyles';
+
+style.type = 'text/css';
+
+style.innerHTML = `
+
+.slds-file-selector.slds-file-selector_files,
+
+.emojiButtonWrapper {
+
+    display: none !important;
+
+}
+
+ 
+
+.embeddedMessagingInputFooterTextArea.slds-textarea {
+
+    caret-color: transparent !important;
+
+    background-color: lightgrey !important;
+
+    pointer-events: none !important;
+
+    user-select: none !important;
+
+}
+
+ 
+
+.embeddedMessagingInputTextAreaWrapper {
+
+    cursor: not-allowed !important;
+
+}`;
+
+document.head.appendChild(style);
+
+}
+
+ 
+
+window.addEventListener('message', (e)=>{
+
+if(e.data == 'InputEnable'){removeStylesheet()}
+
+if(e.data == 'InputDisable'){addBlockStylesheet()}
+
+});
+
+</script>
+<script type='text/javascript' src='https://perryhomes.my.site.com/ESWChatBotMessageforwe1744836953484/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>
+<script type="text/javascript" src="chat.js"></script>
+    </body>
+  </html>
